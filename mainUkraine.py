@@ -1,3 +1,4 @@
+from httpx import options
 import requests
 import bs4
 import logging
@@ -29,6 +30,8 @@ IMAGE_REGEXP = r'https://.+?\.(jpg|png|jpeg)'
 
 @dp.message_handler(commands = ["start"], commands_prefix ="!/")
 async def begin(message: types.Message):
+    mes = await bot.get_me()
+    print(mes)
     await bot.send_message(
         message.chat.id, text = "Слава роду. Путин президент мира."
         )
@@ -76,21 +79,16 @@ async def rasp(message: types.Message):
         )
 
 
-# @dp.message_handler(commands = ["дз"], commands_prefix = "!/")
-# async def dom(message: types.Message):
-#     await bot.send_message(
-#         message.chat.id, text = "844"
-#     )
-#     next_id = message.message_id + 2
-#     print(next_id)
-
 @dp.message_handler(commands = ["загадка"], commands_prefix = "!/")
 async def a(message: types.Message):
-    coded_string = "'''iVBORw0KGgoAAAANSUhEUgAAAegAAAHoAQMAAAC4nu5PAAAABlBMVEX///8AAABVwtN+AAAACXBIWXMAAA7EAAAOxAGVKw4bAAADVklEQVR4nO2WQXbjMAxDef9LY6YmANLJplv2weM4lsRPLeYHalWuXLn+8IW+/n//DH6+UOvWsDjEEKFP0rNS5NEMmz8L3fajV+iTdE+C8+oDqSFp9GIi9Gm68KXNPKc49F+h+S4n5pRQ9rtR6Mv0fsoL91MfaoQvIvQxWlb8/h+J0BdpX0DZDNCcp7bkyjcT+hzdU1qviQhZhIHZbZ8GoY/RNQFf1qOnpnqqwKnQd+mnHlMg2JOYugmL0DfpKo0VDutEmLugjpBjoW/SYPCXrfC7zeBw9gh9k/ZJvltAa7VeZMnaN/Q9mk8rs8ohR/ocWJGB0FdpzFEwfwWUe+u0L32/SkJfo4nKjFJGgFqssHC/nRuhb9ECsWLCLT+yYLGhj9KqtDUWZbKgCXUEdE6EvkeTrYFETiN6s5+F0EdpOBt2NCxMBeq80iH0NZoIFBAdEWPOWx15U2vz0KfoLmFCUB7Wz9fT7m1S6JM0XsHQs+w0nevlylYt9DHauTAfe/GqWzN4tQ59iXb0i3gL0QrVmFQ0J/RNukf84WsabLviwBupNPRJWm/u0Z+axJBBXcnaqtA36UaaLrVSDdyfNn30DX2NbhP0pTzQOtjSZbMS+iRtC/qX3+yaK/MF9Zcxoe/RXu2A0F1Tp46MiNkg9EXaIGbti+g93j6FvkjDeBepITRw9X7OzqFv0bLCP31sc2AYgmfX0Bfp+b9H136IYksmLJYvoa/RZSuIOydQq8VW5s2HvkQ7BrqHT3ksOcrdQZkkWehr9JKEZ0DJja1TYbm04dC3aFACvlEczdAoYtRnbR36Gm1LpIqM8OhdybFlCn2L1gmgNlhlYGff7ucYCX2PrimEE5/KwOJQFBBB6JN0kRC4XlZQQDTUtUKfpDX5lID0M56FZYeHCH2SbiGshuoA3nJleNaGPkkrGnwUzIu02PD6ayD0SRod7Q6DeZ2X2abIhT5Kz9KPApiuVmhFhnd7waHP0YRID8APFlz1xYa+Q8uIpQHkBgTA54RnQx+l9WQ4yI4eKCNKfekPQp+le7GRci5sj5YbmvOuoW/StqO5cahcizcT+jZdsqbmVOAx4JeXTqFP0jWWzBQ+b4hYboU+SDPfnxmWyojlCuyKTAp9ks6VK9cfvf4BPt9UM/iUTaYAAAAASUVORK5CYII='''"
-    await bot.send_photo(
+    # coded_string = "'''iVBORw0KGgoAAAANSUhEUgAAAegAAAHoAQMAAAC4nu5PAAAABlBMVEX///8AAABVwtN+AAAACXBIWXMAAA7EAAAOxAGVKw4bAAADVklEQVR4nO2WQXbjMAxDef9LY6YmANLJplv2weM4lsRPLeYHalWuXLn+8IW+/n//DH6+UOvWsDjEEKFP0rNS5NEMmz8L3fajV+iTdE+C8+oDqSFp9GIi9Gm68KXNPKc49F+h+S4n5pRQ9rtR6Mv0fsoL91MfaoQvIvQxWlb8/h+J0BdpX0DZDNCcp7bkyjcT+hzdU1qviQhZhIHZbZ8GoY/RNQFf1qOnpnqqwKnQd+mnHlMg2JOYugmL0DfpKo0VDutEmLugjpBjoW/SYPCXrfC7zeBw9gh9k/ZJvltAa7VeZMnaN/Q9mk8rs8ohR/ocWJGB0FdpzFEwfwWUe+u0L32/SkJfo4nKjFJGgFqssHC/nRuhb9ECsWLCLT+yYLGhj9KqtDUWZbKgCXUEdE6EvkeTrYFETiN6s5+F0EdpOBt2NCxMBeq80iH0NZoIFBAdEWPOWx15U2vz0KfoLmFCUB7Wz9fT7m1S6JM0XsHQs+w0nevlylYt9DHauTAfe/GqWzN4tQ59iXb0i3gL0QrVmFQ0J/RNukf84WsabLviwBupNPRJWm/u0Z+axJBBXcnaqtA36UaaLrVSDdyfNn30DX2NbhP0pTzQOtjSZbMS+iRtC/qX3+yaK/MF9Zcxoe/RXu2A0F1Tp46MiNkg9EXaIGbti+g93j6FvkjDeBepITRw9X7OzqFv0bLCP31sc2AYgmfX0Bfp+b9H136IYksmLJYvoa/RZSuIOydQq8VW5s2HvkQ7BrqHT3ksOcrdQZkkWehr9JKEZ0DJja1TYbm04dC3aFACvlEczdAoYtRnbR36Gm1LpIqM8OhdybFlCn2L1gmgNlhlYGff7ucYCX2PrimEE5/KwOJQFBBB6JN0kRC4XlZQQDTUtUKfpDX5lID0M56FZYeHCH2SbiGshuoA3nJleNaGPkkrGnwUzIu02PD6ayD0SRod7Q6DeZ2X2abIhT5Kz9KPApiuVmhFhnd7waHP0YRID8APFlz1xYa+Q8uIpQHkBgTA54RnQx+l9WQ4yI4eKCNKfekPQp+le7GRci5sj5YbmvOuoW/StqO5cahcizcT+jZdsqbmVOAx4JeXTqFP0jWWzBQ+b4hYboU+SDPfnxmWyojlCuyKTAp9ks6VK9cfvf4BPt9UM/iUTaYAAAAASUVORK5CYII='''"
+    await bot.send_chat_action(message.chat.id, action="upload_document")
+    file = open("riddle.txt", "rb")
+    await bot.send_document(
         message.chat.id,
-        base64.b64decode(coded_string)
+        document=file
         )
+
 
 
 async def delete_message(message: types.Message, sleep_time: int = 0):
@@ -102,19 +100,43 @@ async def delete_message(message: types.Message, sleep_time: int = 0):
 @dp.message_handler(commands = ["ядрочер"], commands_prefix = "/!")
 async def Serega_Bez_Babi (message: types.Message):
     if message.from_user.id == 1071673992:
-        tags = random.sample(api.video.tags("f").tags, 5)
-        category = random.choice(api.video.categories().categories)
-        result = api.search.search(ordering="mostviewed", tags=tags, category=category)
-        for vid in result.videos:
-            serega = vid.url
-        msg = await bot.send_message(
-            message.chat.id, serega    
-        )
-        asyncio.create_task(delete_message(msg, 3))
+        try:
+            await bot.send_chat_action(message.chat.id, action="upload_video")
+            tags = random.sample(api.video.tags("f").tags, 5)
+            category = random.choice(api.video.categories().categories)
+            result = api.search.search(ordering="mostviewed", tags=tags, category=category)
+            for vid in result.videos:
+                serega = vid.url
+            msg = await bot.send_message(
+                message.chat.id, serega    
+            )
+            asyncio.create_task(delete_message(msg, 3))
+        except Exception:
+            msg = await bot.send_message(
+                message.chat.id, text = "чет пошло не так"
+            )
     else:
         await bot.send_message(
             message.chat.id, text = "ты не серега"
         )
+
+
+@dp.message_handler(commands = ["кик"], commands_prefix = "!/")
+async def id(message: types.Message):
+    m = await bot.get_chat_member(message.chat.id, message.from_user.id)
+    member = m['status']
+    if member != ("administrator" or "creator"):
+        await bot.send_message(
+            message.chat.id, text = "Недостаточно прав для применения данной команды"
+        )
+        await bot.send_sticker(message.chat.id, sticker = "CAACAgIAAxkBAAEEQexiPPqhlb07DaKtlbL-z2G54aAuHAACFQgAAiHtuwM7fmJLu6P05yME")
+    else:
+        try:
+            await bot.ban_chat_member(message.chat.id, message.reply_to_message.from_user.id, 1)
+        except Exception:
+            await bot.send_message(
+            message.chat.id, text = "перешли кого кикать"
+            )
 
 
 
@@ -122,7 +144,7 @@ async def Serega_Bez_Babi (message: types.Message):
 async def answers(message: types.Message):
     answers = [
         "пизда", "хуй на", "дорофтей", 
-        "малафья", "галактику на", "оригиналка - https://vk.com/kakashilox",
+        "люблю тебя", "галактику на", "оригиналка - https://vk.com/kakashilox",
         "караганда"
         ]
     REPLY = random.choice(answers)
@@ -135,17 +157,8 @@ async def answers(message: types.Message):
 async def answers(message: types.Message):
     answers = [
         "пидора ответ", "минет", "хуй в обед", 
-        "мамке привет", "тебе котлет", "оригиналка - https://vk.com/kakashilox",
+        "скинь пару рублей", "тебе котлет", "оригиналка - https://vk.com/kakashilox",
         ]
-    REPLY = random.choice(answers)
-    await bot.send_message(
-        message.chat.id, text = REPLY
-    )
-
-
-@dp.message_handler(lambda message: message.text.lower() == "пидор")
-async def answers(message: types.Message):
-    answers = ["а может ты пидор?", "сам ты пидор"]
     REPLY = random.choice(answers)
     await bot.send_message(
         message.chat.id, text = REPLY
@@ -155,7 +168,7 @@ async def answers(message: types.Message):
 @dp.message_handler(lambda message: message.text.lower() == "хелп")
 async def help(message: types.Message):
     await bot.send_message(
-        message.chat.id, text = "звон - все \nновзвон - все \nрасп - все \nноврасп - все\nзагадка - для всех, но очень сложно\nядрочер - только для сереги\nпрефиксы - / или !"        
+        message.chat.id, text = "звон - все \nновзвон - все \nрасп - все \nноврасп - все\nзагадка - для всех, но очень сложно[обновлено]\nкик - админы\nядрочер - только для сереги\nпрефиксы - / или !\n\nКоманды без префикса: \nанекдот - все\nотметь - все\nкикни - все\nкубик - все\nвероятность - все\nсделай опросик - все"        
     )
 
 
@@ -165,8 +178,10 @@ async def regexp_example(message: types.Message):
 
 
 @dp.message_handler(is_forwarded=True)
-async def forwarded_example(msg: types.Message):
-    await msg.answer('ты нахуй это переслал?')
+async def forwarded_example(message: types.Message):
+    await bot.send_message(
+        message.chat.id, text = "и че ты переслал зачем"        
+    )
 
 
 def getanekdot():
@@ -185,6 +200,7 @@ async def handle_text(message):
     msg=msg.lower()
     if (u'анекдот' in msg):
         try:
+            await bot.send_chat_action(message.chat.id, action="typing")
             await bot.send_message(message.chat.id, getanekdot())
         except:
             await bot.send_message(message.chat.id, text = "чет пошло не так")
@@ -203,6 +219,69 @@ async def handle_text(message):
             )
         except:
             await bot.send_message(message.chat.id, text = "чет пошло не так")
+    elif (u"пидор" in msg):
+        try:
+            answers = ["че обзываешься", "а может ты пидор?", "а ты о ком надеюсь не обо мне?"]
+            await bot.send_message(
+                message.chat.id, text = random.choice(answers)
+            )
+        except:
+            await bot.send_message(message.chat.id, text = "чет пошло не так")
+    elif (u"сделай опросик" in msg):
+        try:
+            await bot.send_chat_action(message.chat.id, action="upload_document")
+            a = message.text.split("/")
+            print(len(a))
+            theme = a[1]
+            option_one = a[2]
+            option_second = a[3]
+            if len(a) == 5:
+                option_three = a[4]
+                await bot.send_poll(
+                message.chat.id, question= theme, options=[str(option_one.replace(" ", "", 1)), str(option_second.replace(" ", "", 1)), str(option_three.replace(" ", "", 1))]
+            )
+            else:
+                await bot.send_poll(
+                message.chat.id, question= theme, options=[str(option_one.replace(" ", "", 1)), str(option_second.replace(" ", "", 1))])
+        except:
+            await bot.send_message(message.chat.id, text = "ты наверно ошибся вот пример: \nсделай опросик / вова гей / да / нет")
+    elif (u"отметь" in msg):
+        try:
+            usernames = message.reply_to_message.from_user.username
+            if usernames == None:
+                await bot.send_message(
+                message.chat.id, text = "сори его нельзя отметить"
+            )
+            else:
+                await bot.send_message(
+                    message.chat.id, text = "@" + str(usernames), disable_notification=False
+                )
+        except Exception:
+            await bot.send_message(
+                message.chat.id, text = "перешли кого отметить то епта"
+            )
+    elif (u"кикни" in msg):
+        m = await bot.get_chat_member(message.chat.id, message.from_user.id)
+        member = m['status']
+        if member != ("administrator" or "creator"):
+            await bot.send_message(
+                message.chat.id, text = "Недостаточно прав для применения данной команды"
+            )
+            await bot.send_sticker(message.chat.id, sticker = "CAACAgIAAxkBAAEEQexiPPqhlb07DaKtlbL-z2G54aAuHAACFQgAAiHtuwM7fmJLu6P05yME")
+        else:
+            try:
+                await bot.ban_chat_member(message.chat.id, message.reply_to_message.from_user.id, 1)
+            except Exception:
+                await bot.send_message(
+                message.chat.id, text = "перешли кого кикать"
+                )
+    # elif (u"ид" in msg):
+    #     try:
+    #         mes = await bot.get_me()
+    #         print(mes)
+    #     except:
+    #         await bot.send_message(message.chat.id, text = "какой опрос нормально напиш")
+    
     # elif (u"никита" in msg):
     #     try:
     #         await bot.send_message(
@@ -220,11 +299,11 @@ async def handle_text(message):
 @dp.message_handler(content_types=["video_note"])
 async def handle_text(message):
     answers = [
-        "ха еблан в кружочке", "ты нахуй сюда пишешь", "помолчи", 
-        "го кикнем?", "и тебе того же", "слава роду", 
-        "тебе кто-то писать разрешал?", "кринжа навалил", "кикнись"]
+        "ха еблан в кружочке", "ты нахуй сюда пишешь", 
+        "го кикнем?", "и тебе того же", "вы прекрасны", "у тебя такие красивые глаза", 
+        "кринжа навалил", "я весь день ждал от тебя кружок"]
     if message.from_user.id == 1071673992:
-        answers.extend(("серега бля ты че все хуйней страдаешь", "кикнем серегу?", "восьмиклассницы ждут серег"))
+        answers.extend(("серега бля ты че все хуйней страдаешь", "серег ты ровный кент, люблю тебя", "восьмиклассницы ждут серег"))
     elif message.from_user.id == 1012078689:
         answers.extend(("иди уроки учи чепуха", "передай привет яна цист"))
     elif message.from_user.id == 536543837:
@@ -240,5 +319,12 @@ async def handle_text(message):
         message.chat.id, text = "ха лох сам смайлы отправляешь а мог бы меня попросить"
     )
       
+@dp.message_handler(content_types=["voice"])
+async def handle_voive(message):
+    answers = ["че буквы запретили", "бля опять слушать", "у тебя прекрасный голос"]
+    await bot.send_message(
+        message.chat.id, text = random.choice(answers)
+    )
+
 
 executor.start_polling(dp, skip_updates=True)
